@@ -1,6 +1,6 @@
 # CloudDriveSync
 
-A lightweight PowerShell script that bidirectionally syncs files between two cloud drive folders (e.g., OneDrive and iCloud Drive) on Windows. Designed to run silently via Task Scheduler.
+A lightweight PowerShell script that bidirectionally syncs files between any two local folders — originally built for OneDrive ↔ iCloud Drive, but works with any cloud storage that syncs to a local folder on your machine (Google Drive, Dropbox, Box, etc.). Designed to run silently via Task Scheduler on Windows.
 
 ## What It Does
 
@@ -17,15 +17,25 @@ A lightweight PowerShell script that bidirectionally syncs files between two clo
 
 ## Dependencies
 
-Both cloud drive applications must be installed and running on your Windows machine with local sync enabled. The script works with the local folders these apps create — it does not use cloud APIs directly.
+The script syncs between two local folders — it does not use cloud APIs directly. As long as your cloud storage provider creates a local sync folder on your machine, this script will work with it.
+
+**Required:**
 
 | Application | Purpose | Download |
 |-------------|---------|----------|
 | **PowerShell 7+** | Required runtime for the sync script. Install the MSI version (not the Store version) for Task Scheduler compatibility on Windows. | [Download PowerShell](https://github.com/PowerShell/PowerShell/releases/latest) |
-| **OneDrive** | Syncs your Microsoft OneDrive files to a local folder (usually `C:\Users\YourName\OneDrive`) | [Download OneDrive](https://www.microsoft.com/en-us/microsoft-365/onedrive/download) — pre-installed on most Windows machines |
-| **iCloud for Windows** | Syncs your Apple iCloud Drive files to a local folder (usually `C:\Users\YourName\iCloudDrive`) | [Download from Microsoft Store](https://apps.microsoft.com/detail/9PKTQ5699M62) |
 
-> **Note:** After installing iCloud for Windows, open the app and enable **iCloud Drive** sync. This creates the local `iCloudDrive` folder that the script uses. OneDrive is typically pre-configured on Windows, but verify your sync folder path in OneDrive settings.
+**Cloud storage (any two of these, or similar):**
+
+| Application | Local Folder | Download |
+|-------------|-------------|----------|
+| **OneDrive** | `C:\Users\YourName\OneDrive` | [Download OneDrive](https://www.microsoft.com/en-us/microsoft-365/onedrive/download) — pre-installed on most Windows machines |
+| **iCloud for Windows** | `C:\Users\YourName\iCloudDrive` | [Download from Microsoft Store](https://apps.microsoft.com/detail/9PKTQ5699M62) |
+| **Google Drive** | `C:\Users\YourName\Google Drive` | [Download Google Drive](https://www.google.com/drive/download/) |
+| **Dropbox** | `C:\Users\YourName\Dropbox` | [Download Dropbox](https://www.dropbox.com/install) |
+| **Box Drive** | `C:\Users\YourName\Box` | [Download Box Drive](https://www.box.com/resources/downloads) |
+
+> **Note:** You only need two cloud apps installed — whichever pair you want to sync between. Verify your local sync folder paths in each app's settings.
 
 ## Setup
 
