@@ -1,4 +1,4 @@
-# CloudDriveSync
+# Cloud Drive Sync
 
 <img src="assets/projectlogo.png" alt="CloudDriveSync Logo" width="200" />
 
