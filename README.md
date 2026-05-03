@@ -61,7 +61,9 @@ Optionally update the allowed file types:
 $IncludeExtensions = @(".docx", ".doc", ".pdf", ".jpg", ".jpeg", ".png", ".gif", ".bmp", ".tiff", ".heic")
 ```
 
-### 2. Configure the VBS launcher (optional, prevents window flash)
+### 2. Configure the VBS launcher (Windows only, optional — prevents window flash)
+
+> **Note:** `RunSync.vbs` is a Windows-only wrapper. It uses VBScript to launch PowerShell completely hidden. On macOS or Linux, this file is not needed — just call the script directly from your scheduler.
 
 Open `RunSync.vbs` and replace the placeholders:
 
@@ -80,6 +82,10 @@ Run the script manually first to verify it works:
 
 ### 4. Schedule it
 
+This script was originally developed on Windows using Task Scheduler, but it can be scheduled with any task runner on any OS that supports PowerShell 7.
+
+#### Windows — Task Scheduler
+
 Open **Task Scheduler** → **Create Task** (not "Create Basic Task"):
 
 | Tab | Setting |
@@ -92,12 +98,35 @@ Open **Task Scheduler** → **Create Task** (not "Create Basic Task"):
 
 > **Why the VBS wrapper?** Task Scheduler + PowerShell always flashes a console window briefly. The VBS wrapper launches PowerShell completely hidden.
 
+#### macOS — launchd
+
+Create a plist file at `~/Library/LaunchAgents/com.user.clouddrivesync.plist` that runs the script every 15 minutes:
+
+```bash
+# Quick test
+pwsh -File /path/to/Sync-CloudDrives.ps1
+
+# Load the scheduled job
+launchctl load ~/Library/LaunchAgents/com.user.clouddrivesync.plist
+```
+
+#### Linux — cron
+
+Add a cron entry to run every 15 minutes:
+
+```bash
+crontab -e
+
+# Add this line:
+*/15 * * * * pwsh -File /path/to/Sync-CloudDrives.ps1 >> /var/log/clouddrivesync.log 2>&1
+```
+
 ## Files
 
 | File | Purpose |
 |------|---------|
 | `Sync-CloudDrives.ps1` | Main sync script |
-| `RunSync.vbs` | Silent launcher wrapper for Task Scheduler (prevents window flash) |
+| `RunSync.vbs` | Silent launcher wrapper for Task Scheduler — **Windows only** (prevents window flash) |
 
 ## Generated Files (created at runtime)
 
