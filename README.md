@@ -152,7 +152,6 @@ crontab -e
 
 ## Known Limitations
 
-- **Microsoft DLP** — files tagged with Microsoft business sensitivity labels may be blocked from copying to non-Microsoft cloud storage (e.g., iCloud). The file will fail to sync and iCloud may create a `.txt` stub file instead. Remove the sensitivity label from the file to resolve.
 - **File type filter** — only files matching `$IncludeExtensions` are synced. All others are logged as SKIPPED.
 - **Subfolder sync** — syncs the configured folders recursively, including subfolders. The `test\` subfolder pattern from development is not excluded by default.
 - **Task Scheduler + "Run whether logged on or not"** — this option requires additional configuration with PowerShell 7 from the Windows Store. Use the MSI-installed version of PowerShell 7 or set to "Run only when user is logged on" for simplicity.
