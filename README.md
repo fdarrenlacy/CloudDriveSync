@@ -15,7 +15,17 @@ A lightweight PowerShell script that bidirectionally syncs files between two clo
 
 - **Windows 10/11**
 - **PowerShell 7+** — [Download here](https://github.com/PowerShell/PowerShell/releases/latest). Install the MSI version (not the Store version) for Task Scheduler compatibility.
-- **Both cloud drives syncing locally** — e.g., OneDrive and [iCloud for Windows](https://apps.microsoft.com/detail/9PKTQ5699M62) installed with local sync enabled
+
+## Dependencies
+
+Both cloud drive applications must be installed and running on your Windows machine with local sync enabled. The script works with the local folders these apps create — it does not use cloud APIs directly.
+
+| Application | Purpose | Download |
+|-------------|---------|----------|
+| **OneDrive** | Syncs your Microsoft OneDrive files to a local folder (usually `C:\Users\YourName\OneDrive`) | [Download OneDrive](https://www.microsoft.com/en-us/microsoft-365/onedrive/download) — pre-installed on most Windows machines |
+| **iCloud for Windows** | Syncs your Apple iCloud Drive files to a local folder (usually `C:\Users\YourName\iCloudDrive`) | [Download from Microsoft Store](https://apps.microsoft.com/detail/9PKTQ5699M62) |
+
+> **Note:** After installing iCloud for Windows, open the app and enable **iCloud Drive** sync. This creates the local `iCloudDrive` folder that the script uses. OneDrive is typically pre-configured on Windows, but verify your sync folder path in OneDrive settings.
 
 ## Setup
 
