@@ -21,23 +21,20 @@ A lightweight PowerShell script that bidirectionally syncs files between any two
 
 The script syncs between two local folders — it does not use cloud APIs directly. As long as your cloud storage provider creates a local sync folder on your machine, this script will work with it.
 
-**Required:**
+**Downloads:**
 
-| Application | Purpose | Download |
-|-------------|---------|----------|
-| **PowerShell 7+** | Required runtime for the sync script. On Windows, install the MSI version (not the Store version) for Task Scheduler compatibility. | [Download PowerShell](https://github.com/PowerShell/PowerShell/releases/latest) |
+| Application | Required? | Download |
+|-------------|-----------|----------|
+| **PowerShell 7+** | Required | [Download PowerShell](https://github.com/PowerShell/PowerShell/releases/latest) |
+| **OneDrive** | Optional | [Download OneDrive](https://www.microsoft.com/en-us/microsoft-365/onedrive/download) |
+| **iCloud** | Optional | [Download iCloud for Windows](https://apps.microsoft.com/detail/9PKTQ5699M62) |
+| **Google Drive** | Optional | [Download Google Drive](https://www.google.com/drive/download/) |
+| **Dropbox** | Optional | [Download Dropbox](https://www.dropbox.com/install) |
+| **Box Drive** | Optional | [Download Box Drive](https://www.box.com/resources/downloads) |
 
-**Cloud storage (any two of these, or similar):**
+> **Note:** PowerShell 7 is required. On Windows, install the MSI version (not the Store version) for Task Scheduler compatibility. For cloud storage, you only need any two installed — whichever pair you want to sync between.
 
-| Application | Local Folder (Windows) | Local Folder (macOS) | Download |
-|-------------|----------------------|---------------------|----------|
-| **OneDrive** | `C:\Users\YourName\OneDrive` | `/Users/YourName/Library/CloudStorage/OneDrive-Personal` | [Download OneDrive](https://www.microsoft.com/en-us/microsoft-365/onedrive/download) |
-| **iCloud for Windows** | `C:\Users\YourName\iCloudDrive` | `/Users/YourName/Library/Mobile Documents/com~apple~CloudDocs` (native on macOS) | [Download from Microsoft Store](https://apps.microsoft.com/detail/9PKTQ5699M62) |
-| **Google Drive** | `C:\Users\YourName\Google Drive` | `/Users/YourName/Library/CloudStorage/GoogleDrive-YourEmail` | [Download Google Drive](https://www.google.com/drive/download/) |
-| **Dropbox** | `C:\Users\YourName\Dropbox` | `/Users/YourName/Dropbox` | [Download Dropbox](https://www.dropbox.com/install) |
-| **Box Drive** | `C:\Users\YourName\Box` | `/Users/YourName/Box` | [Download Box Drive](https://www.box.com/resources/downloads) |
-
-> **Note:** You only need two cloud apps installed — whichever pair you want to sync between. Verify your local sync folder paths in each app's settings.
+Each cloud storage app creates a local folder on your machine where it syncs files. When configuring the script, you'll point `$SideA` and `$SideB` to these local folders. Check each app's settings to find the exact path — it varies by OS and how the app was installed. You don't have to sync the entire cloud drive — you can point Side A and Side B to any specific subfolder you want. For example, you might sync just a single "Projects" folder between OneDrive and iCloud rather than everything at the root.
 
 ## Setup
 
