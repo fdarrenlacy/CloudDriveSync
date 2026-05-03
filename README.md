@@ -6,7 +6,7 @@ A lightweight PowerShell script that bidirectionally syncs files between any two
 
 - **Bidirectional sync** — new and updated files sync both directions (newest timestamp wins on conflicts)
 - **One-way deletes** — deletions only propagate from Side A (primary) to Side B (secondary), not the reverse. If you delete from Side B, the file stays on Side A and gets re-synced back. This was the preferred behavior of the original developer — feel free to modify the script to make deletes bidirectional if that suits your needs.
-- **File type filtering** — only syncs specified file types (`.docx`, `.pdf`, `.jpg`, etc.) and logs any skipped files
+- **File type filtering** — only syncs specified file types (`.docx`, `.pdf`, `.jpg`, etc.) and logs any skipped files. To add more file types, update the `$IncludeExtensions` array near the top of `Sync-CloudDrives.ps1`.
 - **Smart state tracking** — uses a JSON state file to distinguish "deleted from primary" vs. "new file not yet synced"
 - **Cloud offload protection** — if a cloud provider offloads all files to placeholders (0 files visible), deletions are automatically skipped to prevent data loss
 - **JSON logging** — every action (NEW, UPDATED, DELETED, SKIPPED, ERROR) is logged with timestamps
