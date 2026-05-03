@@ -1,6 +1,6 @@
 # CloudDriveSync
 
-A lightweight PowerShell script that bidirectionally syncs files between any two local folders — originally built for OneDrive ↔ iCloud Drive, but works with any cloud storage that syncs to a local folder on your machine (Google Drive, Dropbox, Box, etc.). Designed to run silently via Task Scheduler on Windows.
+A lightweight PowerShell script that bidirectionally syncs files between any two local folders — originally built for OneDrive ↔ iCloud Drive on Windows, but works on any OS (Windows, macOS, Linux) with any cloud storage that syncs to a local folder (Google Drive, Dropbox, Box, etc.).
 
 ## What It Does
 
@@ -13,7 +13,7 @@ A lightweight PowerShell script that bidirectionally syncs files between any two
 
 ## Prerequisites
 
-- **Windows 10/11**
+- **Windows 10/11, macOS, or Linux**
 
 ## Dependencies
 
@@ -23,17 +23,17 @@ The script syncs between two local folders — it does not use cloud APIs direct
 
 | Application | Purpose | Download |
 |-------------|---------|----------|
-| **PowerShell 7+** | Required runtime for the sync script. Install the MSI version (not the Store version) for Task Scheduler compatibility on Windows. | [Download PowerShell](https://github.com/PowerShell/PowerShell/releases/latest) |
+| **PowerShell 7+** | Required runtime for the sync script. On Windows, install the MSI version (not the Store version) for Task Scheduler compatibility. | [Download PowerShell](https://github.com/PowerShell/PowerShell/releases/latest) |
 
 **Cloud storage (any two of these, or similar):**
 
-| Application | Local Folder | Download |
-|-------------|-------------|----------|
-| **OneDrive** | `C:\Users\YourName\OneDrive` | [Download OneDrive](https://www.microsoft.com/en-us/microsoft-365/onedrive/download) — pre-installed on most Windows machines |
-| **iCloud for Windows** | `C:\Users\YourName\iCloudDrive` | [Download from Microsoft Store](https://apps.microsoft.com/detail/9PKTQ5699M62) |
-| **Google Drive** | `C:\Users\YourName\Google Drive` | [Download Google Drive](https://www.google.com/drive/download/) |
-| **Dropbox** | `C:\Users\YourName\Dropbox` | [Download Dropbox](https://www.dropbox.com/install) |
-| **Box Drive** | `C:\Users\YourName\Box` | [Download Box Drive](https://www.box.com/resources/downloads) |
+| Application | Local Folder (Windows) | Local Folder (macOS) | Download |
+|-------------|----------------------|---------------------|----------|
+| **OneDrive** | `C:\Users\YourName\OneDrive` | `/Users/YourName/Library/CloudStorage/OneDrive-Personal` | [Download OneDrive](https://www.microsoft.com/en-us/microsoft-365/onedrive/download) |
+| **iCloud for Windows** | `C:\Users\YourName\iCloudDrive` | `/Users/YourName/Library/Mobile Documents/com~apple~CloudDocs` (native on macOS) | [Download from Microsoft Store](https://apps.microsoft.com/detail/9PKTQ5699M62) |
+| **Google Drive** | `C:\Users\YourName\Google Drive` | `/Users/YourName/Library/CloudStorage/GoogleDrive-YourEmail` | [Download Google Drive](https://www.google.com/drive/download/) |
+| **Dropbox** | `C:\Users\YourName\Dropbox` | `/Users/YourName/Dropbox` | [Download Dropbox](https://www.dropbox.com/install) |
+| **Box Drive** | `C:\Users\YourName\Box` | `/Users/YourName/Box` | [Download Box Drive](https://www.box.com/resources/downloads) |
 
 > **Note:** You only need two cloud apps installed — whichever pair you want to sync between. Verify your local sync folder paths in each app's settings.
 
@@ -44,15 +44,32 @@ The script syncs between two local folders — it does not use cloud APIs direct
 Open `Sync-CloudDrives.ps1` and update the configuration section at the top:
 
 ```powershell
-# Side A is the "primary" — deletions here propagate to Side B
+# Windows
 $SideA = "C:\Users\YourName\OneDrive\Documents\MyFolder"
 
-# Side B is the "secondary" — deletions here do NOT propagate to Side A  
+# macOS
+$SideA = "/Users/YourName/Library/CloudStorage/OneDrive-Personal/MyFolder"
+
+# Linux
+$SideA = "/home/YourName/OneDrive/MyFolder"
+```
+
+```powershell
+# Windows
 $SideB = "C:\Users\YourName\iCloudDrive\MyFolder"
 
-# Log and state files
+# macOS (iCloud Drive is native)
+$SideB = "/Users/YourName/Library/Mobile Documents/com~apple~CloudDocs/MyFolder"
+```
+
+```powershell
+# Windows
 $LogFile = "C:\Users\YourName\.sync-cloud-drives.json"
 $StateFile = "C:\Users\YourName\.sync-cloud-drives-state.json"
+
+# macOS / Linux
+$LogFile = "/Users/YourName/.sync-cloud-drives.json"
+$StateFile = "/Users/YourName/.sync-cloud-drives-state.json"
 ```
 
 Optionally update the allowed file types:
@@ -77,7 +94,11 @@ Open `RunSync.vbs` and replace the placeholders:
 Run the script manually first to verify it works:
 
 ```powershell
+# Windows
 & "C:\Program Files\PowerShell\7\pwsh.exe" -ExecutionPolicy Bypass -File "C:\path\to\Sync-CloudDrives.ps1"
+
+# macOS / Linux
+pwsh -File /path/to/Sync-CloudDrives.ps1
 ```
 
 ### 4. Schedule it
@@ -154,7 +175,7 @@ crontab -e
 
 - **File type filter** — only files matching `$IncludeExtensions` are synced. All others are logged as SKIPPED.
 - **Subfolder sync** — syncs the configured folders recursively, including subfolders. The `test\` subfolder pattern from development is not excluded by default.
-- **Task Scheduler + "Run whether logged on or not"** — this option requires additional configuration with PowerShell 7 from the Windows Store. Use the MSI-installed version of PowerShell 7 or set to "Run only when user is logged on" for simplicity.
+- **Task Scheduler + "Run whether logged on or not" (Windows)** — this option requires additional configuration with PowerShell 7 from the Windows Store. Use the MSI-installed version of PowerShell 7 or set to "Run only when user is logged on" for simplicity. This limitation does not apply to macOS (launchd) or Linux (cron).
 
 ## License
 

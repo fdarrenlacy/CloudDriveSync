@@ -9,7 +9,7 @@
     - Deletions propagate from Side A to Side B only (not reverse)
     - Only syncs specified file types (configurable)
     - Logs all activity to a JSON file
-    - Designed to run via Task Scheduler every 15 minutes
+    - Designed to run on a schedule (Task Scheduler on Windows, cron on Linux, launchd on macOS)
     
 .EXAMPLE
     # Run a sync
@@ -23,14 +23,19 @@
 # ============================================================
 
 # Side A is the "primary" — deletions here propagate to Side B
-$SideA = "<SIDE_A_PATH>"   # e.g., "C:\Users\YourName\OneDrive\Documents\MyFolder"
+$SideA = "<SIDE_A_PATH>"   # e.g., "C:\Users\YourName\OneDrive\Documents\MyFolder" (Windows)
+                           #       "/Users/YourName/Library/CloudStorage/OneDrive-Personal/MyFolder" (macOS)
+                           #       "/home/YourName/OneDrive/MyFolder" (Linux)
 
 # Side B is the "secondary" — deletions here do NOT propagate to Side A
-$SideB = "<SIDE_B_PATH>"   # e.g., "C:\Users\YourName\iCloudDrive\MyFolder"
+$SideB = "<SIDE_B_PATH>"   # e.g., "C:\Users\YourName\iCloudDrive\MyFolder" (Windows)
+                           #       "/Users/YourName/Library/Mobile Documents/com~apple~CloudDocs/MyFolder" (macOS)
 
 # Log and state files — update the path prefix to your user folder
-$LogFile = "<USER_HOME>\.sync-cloud-drives.json"       # e.g., "C:\Users\YourName\.sync-cloud-drives.json"
-$StateFile = "<USER_HOME>\.sync-cloud-drives-state.json" # e.g., "C:\Users\YourName\.sync-cloud-drives-state.json"
+$LogFile = "<USER_HOME>\.sync-cloud-drives.json"       # e.g., "C:\Users\YourName\.sync-cloud-drives.json" (Windows)
+                                                       #       "/Users/YourName/.sync-cloud-drives.json" (macOS/Linux)
+$StateFile = "<USER_HOME>\.sync-cloud-drives-state.json" # e.g., "C:\Users\YourName\.sync-cloud-drives-state.json" (Windows)
+                                                         #       "/Users/YourName/.sync-cloud-drives-state.json" (macOS/Linux)
 
 # Only sync these file types (add or remove as needed)
 $IncludeExtensions = @(".docx", ".doc", ".pdf", ".jpg", ".jpeg", ".png", ".gif", ".bmp", ".tiff", ".heic")
