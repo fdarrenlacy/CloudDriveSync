@@ -1,6 +1,8 @@
 # CloudDriveSync
 
-A lightweight PowerShell script that bidirectionally syncs files between any two local folders — originally built for OneDrive ↔ iCloud Drive on Windows, but works on any OS (Windows, macOS, Linux) with any cloud storage that syncs to a local folder (Google Drive, Dropbox, Box, etc.).
+<img src="assets/projectlogo.png" alt="CloudDriveSync Logo" width="200" />
+
+A lightweight PowerShell script that bidirectionally syncs files between any two local folders— originally built for OneDrive ↔ iCloud Drive on Windows, but works on any OS (Windows, macOS, Linux) with any cloud storage that syncs to a local folder (Google Drive, Dropbox, Box, etc.).
 
 ## What It Does
 
